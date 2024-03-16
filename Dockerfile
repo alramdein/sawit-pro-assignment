@@ -16,6 +16,10 @@ FROM alpine:latest
 # We need to copy the binary from the build image to the production image.
 COPY --from=Build /main .
 
+# Copy the key files into the image
+COPY private_pkcs1.pem /
+COPY public.pem /
+
 # This is the port that our application will be listening on.
 EXPOSE 1323
 

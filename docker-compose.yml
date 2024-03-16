@@ -8,6 +8,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    # volumes:
+    #   - ./.env:/.env
   db:
     platform: linux/x86_64
     image: postgres:14.1-alpine
@@ -17,7 +19,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: database
     ports:
-      - 5432:5432
+      - 25432:5432
     expose:
       - 5432
     volumes:

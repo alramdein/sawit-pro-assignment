@@ -1,10 +1,13 @@
 // This file contains types that are used in the repository layer.
 package repository
 
-type GetTestByIdInput struct {
-	Id string
+type InsertUserInput struct {
+	Id       string
+	Name     string
+	Phone    string
+	Password string
 }
 
-type GetTestByIdOutput struct {
-	Name string
+type InsertUserOutput struct {
+	Id string
 }

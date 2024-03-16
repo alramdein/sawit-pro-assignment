@@ -1,17 +1,17 @@
 
 
-.PHONY: clean all init generate generate_mocks
+.PHONY: clean all init generate generate_mocks generate_keys
 
 all: build/main
 
-build/main: cmd/main.go generated
+build/main: cmd/main.go generated generate_keys
 	@echo "Building..."
 	go build -o $@ $<
 
-clean:
+clean: clean_keys
 	rm -rf generated
 
-init: generate
+init: generate generate_keys
 	go mod tidy
 	go mod vendor
 
@@ -38,3 +38,17 @@ tidy:
 
 run: 
 	go run cmd/main.go
+
+reinit: clean init
+
+generate_keys:
+	@echo "Generating RSA private key..."
+	@openssl genrsa -out private.pem 2048
+	@echo "Copying private key to PKCS#1 format..."
+	@openssl rsa -in private.pem -outform PEM -out private_pkcs1.pem
+	@echo "Generating RSA public key..."
+	@openssl rsa -in private.pem -pubout -out public.pem
+
+clean_keys:
+	@echo "Cleaning up..."
+	@rm -f private.pem private_pkcs1.pem public.pem
