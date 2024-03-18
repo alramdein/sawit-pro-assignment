@@ -23,6 +23,7 @@ func TestRegister(t *testing.T) {
 	e := echo.New()
 
 	t.Run("ValidRegistration", func(t *testing.T) {
+		mockRepo.EXPECT().GetUserByPhone(gomock.Any(), gomock.Any()).Return(nil, nil)
 		mockRepo.EXPECT().InsertUser(gomock.Any(), gomock.Any()).Return(nil).Do(func(ctx context.Context, input repository.InsertUserInput) {
 			assert.NotEmpty(t, input.Name)
 			assert.NotEmpty(t, input.Phone)

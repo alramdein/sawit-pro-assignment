@@ -29,6 +29,7 @@ func (s *Server) Register(ctx echo.Context) error {
 
 	user, err := s.Repository.GetUserByPhone(ctx.Request().Context(), req.Phone)
 	if err != nil {
+		s.Logger.Error(err)
 		return ctx.JSON(http.StatusInternalServerError, InternalError())
 	}
 	if user != nil {
